@@ -2,9 +2,9 @@
 
 
 # -----------------------------------------------------------------------------
-""" This MODULE contains the data structure and implementation for quickselect:
-    a selection algorithm to find the k-th smallest element in an unordered
-    list.
+""" This MODULE contains the data structures and implementation for
+    quickselect: a selection algorithm for finding the k-th smallest element in
+    an unordered list.
 """ # -------------------------------------------------------------------------
 
 __author__ = '@kaethis'

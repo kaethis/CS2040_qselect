@@ -1,12 +1,11 @@
 ## CS 2040 - Algorithms I
-**Assignment #4:** Quickselect; Lomuto and Hoare's Partitioning Algorithm
+**Assignment #4:** Quickselect; Lomuto and Hoare's Partitioning Algorithms
 
 **Author:** Matt W. Martin
 
 ### About
 
-This program ...
-
+This program features a nonrecursive implementation of *quickselect*, a selection algorithm for finding the *k*-th smallest element in an unordered list, using either [Lomuto's partitioning algorithm](https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme) or [Hoare's algorithm](https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme) as its partitioning scheme.
 
 ---
 ### Contents
@@ -15,9 +14,9 @@ The contents of this repository include the following files:
 ./
     README.md        # this file
     driver.py        # for executing the program
-    qselect.py       # implementation and data structure for ...
-    util.py          # helper function(s)
     integers.txt     # a list of integers (from textbook on p.160)
+    qselect.py       # implementation and data structures for quickselect
+    util.py          # helper functions
 ```
 
 ---
