@@ -53,13 +53,11 @@ options:
 
 ~created by @kaethis
 ```
-A list of integer numbers can be provided as a positional command-line argument and/or a path to a file containing one or more integers (separated by some delimiter) using the `--file PATH` option.  If a list of one or more integers and file path are both provided, the integers from the file are appended to the end of the list.  The median of the list is selected if no number for the *k*-th smallest element is provided with `--k K`.  Hoare's partitioning algorithm is used by specifying the `--hoare` option; Lomuto's algorithm is used by default (or by explicitly specifying `--no-hoare`).
+A list of integer numbers can be provided as a positional command-line argument (separated by spaces) and/or a path to a file containing one or more integers (separated by some delimiter) using the `--file PATH` option.  If a list of one or more integers and file path are both provided, the integers from the file are appended to the end of the list.  The median of the list is selected if no number for the *k*-th smallest element is provided with `--k K`.  Hoare's partitioning algorithm is used by specifying the `--hoare` option; Lomuto's algorithm is used by default (or by explicitly specifying `--no-hoare`).
 
 For example, the program will select the *2nd* smallest integer in an unordered list of integers *128, 2, 32, 4, 256, 1, 64, 8 and 16* using Hoare's partitoning algorithm by entering `python3 driver.py 128 2 32 4 256 1 64 8 16 --k 2 --hoare` (whereby the integer selected will by *2*).
 
 Alternatively, the program will select the *median* of an unordered list of integers specified in a file called *integers.txt* containing the integers *4, 1, 10, 8, 7, 12, 9, 2 and 15* using Lomuto's algorithm by entering `python3 driver.py --file integers.txt` (whereby the integer selected will be *8*).
-
-Once more, the program will select the *13th* smallest integer in both aforementioned lists of integers (as a positional command-line argument and a path to a file called *integers.txt* containing one or more integers, respectively) using Hoare's algorithm by specifying `python3 driver.py 128 2 32 4 256 1 64 8 16 --file integers.txt --k 13 --hoare` (whereby the integer selected will by *15*).
 
 ...
 
