@@ -1,5 +1,5 @@
 ## CS 2040 - Algorithms I
-**Assignment #4:** Quickselect, Lomuto and Hoare's Partitioning Algorithm
+**Assignment #4:** Quickselect; Lomuto and Hoare's Partitioning Algorithm
 
 **Author:** Matt W. Martin
 
