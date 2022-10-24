@@ -70,7 +70,9 @@ def main(): # -----------------------------------------------------------------
 
 
     parser = argparse.ArgumentParser(\
-        description= "This PROGRAM ...",\
+        description= "This PROGRAM features a nonrecursive implementation of\
+                      quickselect using either Lomuto's partitioning algorithm\
+                      or Hoare's algorithm as its partitioning scheme.",\
         epilog=      "~created by " + __author__\
     )
 
