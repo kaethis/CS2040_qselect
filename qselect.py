@@ -2,7 +2,9 @@
 
 
 # -----------------------------------------------------------------------------
-""" This MODULE ...
+""" This MODULE contains the data structure and implementation for quickselect:
+    a selection algorithm to find the k-th smallest element in an unordered
+    list.
 """ # -------------------------------------------------------------------------
 
 __author__ = '@kaethis'
@@ -16,7 +18,11 @@ from typing import Any, Optional, List
 
 
 class QuickSelector(): # ------------------------------------------------------
-    """ This CLASS ...
+    """ This CLASS represents a nonrecursive implementation for quickselect,
+        using either Lomuto's partitioning algorithm or Hoare's algorithm, to
+        select the k-th smallest element in a list of comparable elements.
+
+        Each iteration of the algorithm ensues by calling its step() function.
     """ # ---------------------------------------------------------------------
 
     def __init__(self,\
@@ -28,7 +34,7 @@ class QuickSelector(): # ------------------------------------------------------
         self.elems = elems          # The list of comparable elements.
 
         self.is_hoare = is_hoare    # Whether or not to use Hoare's partition
-                                    # algorithm; if not, Lomuno's algorithm is
+                                    # algorithm; if not, Lomuto's algorithm is
                                     # used instead.
 
         # Number of k-th smallest element in the list of comparable elements.
@@ -46,7 +52,9 @@ class QuickSelector(): # ------------------------------------------------------
         
 
     def step(self) -> bool: # -------------------------------------------------
-        """ This FUNCTION ...
+        """ This FUNCTION ensues a single iteration of the algorithm and
+            returns whether or not the pivot is the k-th smallest element (i.e.
+            the terminating condition).
         """ # -----------------------------------------------------------------
 
         self.s = self.hoare(self.elems, self.lo, self.hi) if self.is_hoare\
@@ -79,7 +87,7 @@ class QuickSelector(): # ------------------------------------------------------
 
 
     def getPivot(self) -> Any: # ----------------------------------------------
-        """ This FUNCTION returns the pivot element in the list.
+        """ This FUNCTION returns the pivot in the list of elements.
         """ # -----------------------------------------------------------------
 
         if (self.s == -1):

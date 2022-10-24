@@ -101,7 +101,7 @@ def main(): # -----------------------------------------------------------------
         '--hoare',\
         action= argparse.BooleanOptionalAction,\
         help=   "whether or not to use Hoare's partitioning algorithm (default\
-                 is Lomuno's algorithm)"\
+                 is Lomuto's algorithm)"\
     )
 
 
@@ -109,8 +109,8 @@ def main(): # -----------------------------------------------------------------
 
 
     # Initialize the list of integer numbers from arguments.  If a list of one
-    # or more ints (metavar N) and file (metavar PATH) were both provided, the
-    # integers from the file will be appended to the end of the list.
+    # or more ints (metavar N) and file (metavar PATH) both provided, the
+    # integers from the file are appended to the end of the list:
 
     nums = args.ints if args.ints is not None else []
 
@@ -124,7 +124,6 @@ def main(): # -----------------------------------------------------------------
         raise argparse.ArgumentTypeError(\
             "one or more integers must be provided"\
         )
-
 
     # If number for the k-th smallest element (k) provided from arguments,
     # validate k within bounds:

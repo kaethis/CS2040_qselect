@@ -2,7 +2,8 @@
 
 
 # -----------------------------------------------------------------------------
-""" This MODULE ...
+""" This MODULE contains helper functions and data structures outside the scope
+    of the problem domain.
 """ # -------------------------------------------------------------------------
 
 __author__ = '@kaethis'
