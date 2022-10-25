@@ -38,7 +38,7 @@ def validateFile(path: str) -> Tuple[int, ...]: # -----------------------------
         data = os.read(fd, os.path.getsize(path)).decode("utf-8")
 
     
-        ints = tuple(int(i) for i in re.findall(r"(\d+)", data))
+        ints = tuple(int(i) for i in re.findall(r"(-?\d+)", data))
 
         assert (len(ints) != 0)
 
