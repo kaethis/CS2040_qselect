@@ -58,11 +58,11 @@ A list of integer numbers can be provided as a positional command-line argument 
 
 For example, the program will select the *2nd* smallest integer in an unordered list of integers *128, 2, 32, 4, 256, 1, 64, 8 and 16* using Hoare's partitoning algorithm by entering `python3 driver.py 128 2 32 4 256 1 64 8 16 --k 2 --hoare` (whereby the integer selected will by *2*).
 
-Alternatively, the program will select the *median* of an unordered list of integers specified in a file called *integers.txt* containing the integers *4, 1, 10, 8, 7, 12, 9, 2 and 15* using Lomuto's algorithm by entering `python3 driver.py --file integers.txt` (whereby the integer selected will be *8*).
+Alternatively, the program will select the *median* of an unordered list of integers specified in a file called *example1.txt* containing the integers *4, 1, 10, 8, 7, 12, 9, 2 and 15* using Lomuto's algorithm by entering `python3 driver.py --file example1.txt` (whereby the integer selected will be *8*).
 
 This program will segment the list of integers according to its start and end indices (called *lo* and *hi*, respectively) about a pivot (the first element in the segment) until the pivot is the *k*-th smallest integer.  The *lo* index is colored in blue whereas the *hi* index is colored red; if *lo* equals *hi*, the index is colored purple.  The value of the last pivot is colored orange until the pivot equals the *k*-th smallest integer, after which it will be colored green.  Proceed to the next iteration of the algorithm by pressing any key on the keyboard.
 
-After the *k*-th smallest integer is selected, the list of integers after the final iteration of quicksort will be printed to the console alongside the integer selected and partitioning scheme used for the algorithm.
+After the *k*-th smallest integer is selected, the list of integers after the final iteration of quicksort will be printed to the console alongside the integer selected and partitioning scheme used:
 
 ```
 [2, 1, 4, 7, 8, 12, 9, 10, 15]
