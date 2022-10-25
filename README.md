@@ -25,6 +25,7 @@ The contents of this repository include the following files:
 This program requires the following modules from the Python 3.10 standard library:
 ```
 argparse    # parser for command-line options, args and sub-commands
+curses      # terminal handling for character-cell displays
 math        # mathematical functions (namely, ceil)
 os          # misc operating system interfaces (namely, file i/o)
 re          # regular expression operations
