@@ -7,28 +7,278 @@
 
 __author__ = '@kaethis'
 
-__version__ = '1.0'
+__version__ = '1.1'
 
 
 import argparse
+
+import curses
 
 import qselect
 
 import util
 
 
-def prog(): # -----------------------------------------------------------------
+def prog(stdscr): # -----------------------------------------------------------
     """ This FUNCTION ...
     """ # ---------------------------------------------------------------------
 
     global qs
 
 
+    # NOTE: This program presumes the terminal is capable of displaying color.
+
+    # TODO: Check to see whether or not the terminal is capable of displaying
+    #       colors.  If it cannot, skip over color pair initialization and
+    #       opt for basic color palette instead.
+
+    colors = {\
+        12 : (500,   0, 500),\
+        13 : (  0,   0, 500),\
+        14 : (500,   0,   0),\
+        15 : (250, 250, 250),\
+        16 : (  0, 500,   0),\
+        17 : (750, 500,   0),\
+        18 : (500, 500, 500),\
+    }
+
+    for c in colors.keys():
+
+        curses.init_color(c, colors[c][0], colors[c][1], colors[c][2])
+
+
+    color_pairs = {\
+        1 : (curses.COLOR_WHITE, curses.COLOR_BLACK),\
+        2 : (curses.COLOR_WHITE, 12),\
+        3 : (curses.COLOR_WHITE, 13),\
+        4 : (curses.COLOR_WHITE, 14),\
+        5 : (curses.COLOR_BLACK, 15),\
+        6 : (curses.COLOR_BLACK, curses.COLOR_WHITE),\
+        7 : (curses.COLOR_WHITE, 16),\
+        8 : (17,                 curses.COLOR_BLACK),\
+        9 : (18,                 curses.COLOR_BLACK),\
+    }
+
+    for p in color_pairs.keys():
+
+        curses.init_pair(p, color_pairs[p][0], color_pairs[p][1])
+
+
+    # Calculate stdscr dimensions (i.e. terminal screen):
+
+    screen_ymax, screen_xmax = stdscr.getmaxyx()
+   
+
+    # Calculate win dimensions:
+
+    win_yoffs, win_xoffs = 1, 2     # Number of spaces win offset from (0,0) of
+                                    # stdscr (i.e. terminal screen).
+
+    win_padding = 2                 # Number of spaces between edge of win
+                                    # (including border) and cells.
+
+    win_ymax = (screen_ymax-win_xoffs-(win_padding*2))
+                                                     
+    win_xmax = (screen_xmax-win_yoffs-(win_padding*2))
+
+
+    # Calculate cell dimensions:
+
+    cell_margin = 1                             # Number of spaces b/w ells.
+
+    cell_width = (max(len(str(e)) for e in qs.elems)+cell_margin)
+
+    cell_height = (2+cell_margin)
+
+    cell_ymax = int(win_ymax/cell_height)       # Total num of cells per col.
+
+    cell_xmax = int(win_xmax/cell_width)        # Total num of cells per row.
+
+   
+    # If number of digits of maximum allowable index greater than the number of
+    # digits of largest integer in list, use num of digits of index for cell
+    # width instead.
+
+    index_max = ((cell_ymax*cell_xmax)-1)
+
+    index_width = (len(str(index_max))+cell_margin)
+
+    if (index_width > cell_width):
+
+        cell_width = index_width
+
+        cell_xmax = int(win_xmax/cell_width)    # Recalculate total number of
+                                                # cells per row.
+    
+
+    # Validate screen size sufficient for displaying entire list of integers
+    # according to dimensions calculated above:
+
+    if (len(qs.elems) > (index_max+1)):
+
+        raise BufferError(\
+            "screen size insufficient for displaying list of integers"
+        )
+
+
+    win = stdscr.subwin(\
+        ((cell_height*cell_ymax)+(win_padding*2)-cell_margin),\
+        ((cell_width*cell_xmax)+(win_padding*2)-cell_margin),\
+        win_yoffs,\
+        win_xoffs\
+    )
+
+    win.box()
+
+
+    is_pivot = False
+
+
     while True:
 
-        if qs.step():
+        for i in range(0, cell_ymax):
 
-            break
+            for j in range(0, cell_xmax):
+
+                cell_i = ((i*cell_xmax)+j)
+
+                
+                if (0 <= cell_i < len(qs.elems)):
+
+                    elem = qs.elems[cell_i]
+
+
+                    if (cell_i == qs.lo) and (cell_i == qs.hi):
+
+                        p = curses.color_pair(2)    # If index both segment
+                                                    # start and end, color
+                                                    # index WHITE/PURPLE.
+
+                    elif (cell_i == qs.lo):
+
+                        p = curses.color_pair(3)    # If index segment start,
+                                                    # color index WHITE/RED.
+
+                    elif (cell_i == qs.hi):
+
+                        p = curses.color_pair(4)    # If index segment end,
+                                                    # color index WHITE/BLUE.
+
+                    elif (cell_i < qs.lo) or (cell_i > qs.hi):
+
+                        p = curses.color_pair(5)    # If index outside segment,
+                                                    # color index BLACK/GREY.
+
+                    else:
+
+                        p = curses.color_pair(6)    # If index inside segment,
+                                                    # color index BLACK/WHITE.
+
+                    win.move(\
+                        ((i*cell_height)+win_padding),\
+                        ((j*cell_width)+win_padding)\
+                    )
+
+                    win.addstr(str(cell_i).rjust(cell_width-cell_margin), p)
+
+
+                    if (cell_i == qs.s) and (cell_i == (qs.k-1)):
+
+                        p = curses.color_pair(7)    # If elem pivot and is k-th
+                                                    # smallest element, color
+                                                    # elem WHITE/GREEN.
+
+                    elif (cell_i == qs.s):
+
+                        p = curses.color_pair(8)    # If elem pivot but is not
+                                                    # k-th smallest element,
+                                                    # color elem ORANGE/BLACK.
+
+                    elif (cell_i < qs.lo) or (cell_i > qs.hi):
+
+                        p = curses.color_pair(9)    # If elem outside segment,
+                                                    # color elem GREY/BLACK.
+
+                    else:
+
+                        p = curses.color_pair(1)    # If elem inside segment,
+                                                    # color elem WHITE/BLACK.
+                                                    
+                    win.move(\
+                        ((i*cell_height)+win_padding+1),\
+                        ((j*cell_width)+win_padding)\
+                    )
+
+                    win.addstr(str(elem).rjust(cell_width-cell_margin), p)
+
+
+        win.refresh()
+
+        stdscr.move(0, 0)       # Move cursor somewhere inconsequential.
+
+
+        key = stdscr.getch()    # Block for user input and capture key code.
+
+
+        # TODO: Finish documentation...
+
+
+        if (key == curses.KEY_RESIZE):
+
+            screen_ymax, screen_xmax = stdscr.getmaxyx()
+
+    
+            win_ymax = (screen_ymax-win_xoffs-(win_padding*2))
+
+            win_xmax = (screen_xmax-win_yoffs-(win_padding*2))
+
+
+            cell_width = (max(len(str(e)) for e in qs.elems)+cell_margin)
+
+            cell_ymax = int(win_ymax/cell_height)
+
+            cell_xmax = int(win_xmax/cell_width)
+
+
+            index_max = ((cell_ymax*cell_xmax)-1)
+
+            index_width = (len(str(index_max))+cell_margin)
+
+            if (index_width > cell_width):
+
+                cell_width = index_width
+
+                cell_xmax = int(win_xmax/cell_width)
+
+
+            if (len(qs.elems) > (index_max+1)):
+
+                raise BufferError(\
+                    "screen size insufficient for displaying list of integers"
+                )
+
+
+            stdscr.clear()
+
+
+            win.resize(\
+                ((cell_height*cell_ymax)+(win_padding*2)-cell_margin),\
+                ((cell_width*cell_xmax)+(win_padding*2)-cell_margin)\
+            )
+
+            win.box()
+
+            win.refresh()
+
+        else:
+
+            if not is_pivot:
+
+                is_pivot = qs.step()
+
+            else:
+
+                break
 
 
 def exit(): # -----------------------------------------------------------------
@@ -37,26 +287,16 @@ def exit(): # -----------------------------------------------------------------
 
     global qs
 
-    
-    for i in range(0, len(qs.elems)):
+   
+    # Print the list of elements after final iteration of the algorithm, the
+    # value of the pivot (which is now the k-th smallest element) and which of
+    # two partitioning schemes used.
 
-        print("{:03d}".format(i), end=' ')
+    print(qs.elems)
 
-    print()
-
-
-    for elem in qs.elems:
-
-        print("{:3d}".format(elem), end=' ')
-
-    print()
-
-
-    elem = qs.getPivot()
-
-    print("{0}-th smallest element is {1}, using ".format(qs.k, elem)\
+    print("{0}-th smallest element is {1} (using ".format(qs.k, qs.getPivot())\
         + ("Hoare's " if qs.is_hoare else "Lomuto's ")\
-        + "partitioning algorithm.")
+        + "partitioning algorithm).")
 
 
     quit()
@@ -112,7 +352,7 @@ def main(): # -----------------------------------------------------------------
 
     # Initialize the list of integer numbers from arguments.  If a list of one
     # or more ints (metavar N) and file (metavar PATH) both provided, the
-    # integers from the file are appended to the end of the list:
+    # integers from the file are appended to the end of the list.
 
     nums = args.ints if args.ints is not None else []
 
@@ -141,7 +381,7 @@ def main(): # -----------------------------------------------------------------
     qs = qselect.QuickSelector(nums, args.hoare, args.k)
 
 
-    prog()
+    curses.wrapper(prog)
 
 
     exit()  # Exit the program formally.
