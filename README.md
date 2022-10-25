@@ -12,11 +12,12 @@ This program features a nonrecursive implementation of *quickselect*, a selectio
 The contents of this repository include the following files:
 ```
 ./
-    README.md        # this file
-    driver.py        # for executing the program
-    integers.txt     # a list of integers (from textbook on p.160)
-    qselect.py       # implementation and data structures for quickselect
-    util.py          # helper functions
+    README.md       # this file
+    driver.py       # for executing the program
+    example1.txt    # a list of integers (from textbook on p.160)
+    example2.txt    # a list of more integers (from random number generator)
+    qselect.py      # implementation and data structures for quickselect
+    util.py         # helper functions
 ```
 
 ---
@@ -59,7 +60,14 @@ For example, the program will select the *2nd* smallest integer in an unordered 
 
 Alternatively, the program will select the *median* of an unordered list of integers specified in a file called *integers.txt* containing the integers *4, 1, 10, 8, 7, 12, 9, 2 and 15* using Lomuto's algorithm by entering `python3 driver.py --file integers.txt` (whereby the integer selected will be *8*).
 
-...
+This program will segment the list of integers according to its start and end indices (called *lo* and *hi*, respectively) about a pivot (the first element in the segment) until the pivot is the *k*-th smallest integer.  The *lo* index is colored in blue whereas the *hi* index is colored red; if *lo* equals *hi*, the index is colored purple.  The value of the last pivot is colored orange until the pivot equals the *k*-th smallest integer, after which it will be colored green.  Proceed to the next iteration of the algorithm by pressing any key on the keyboard.
+
+After the *k*-th smallest integer is selected, the list of integers after the final iteration of quicksort will be printed to the console alongside the integer selected and partitioning scheme used for the algorithm.
+
+```
+[2, 1, 4, 7, 8, 12, 9, 10, 15]
+5-th smallest element is 8 (using Lomuto's partitioning algorithm).
+```
 
 ---
 ### Links
@@ -68,3 +76,5 @@ Here are some resources I found useful when developing this program:
 - [argparse — Parser for command-line options, arguments and sub-commands](https://docs.python.org/3/library/argparse.html) This program features a variety of different types of arguments made possibly by the argparse library, each with their own associated behaviour.  The documentation explains how to achieve these results.
 
 - [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) Here's a definitive list of every single built-in exception Python has to offer; especially useful for when trying to determine which exception to raise is most appropriate.
+
+- [RANDOM.ORG - Integer Generator](https://www.random.org/integers/) Random number generator whereby the the randomness comes from amospheric noise.  Pretty cool!
