@@ -78,4 +78,4 @@ Here are some resources I found useful when developing this program:
 
 - [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) Here's a definitive list of every single built-in exception Python has to offer; especially useful for when trying to determine which exception to raise is most appropriate.
 
-- [RANDOM.ORG - Integer Generator](https://www.random.org/integers/) Random number generator where the the randomness comes from atmospheric noise.  Pretty cool!
+- [RANDOM.ORG - Integer Generator](https://www.random.org/integers/) Random number generator where the randomness comes from atmospheric noise.  Pretty cool!
